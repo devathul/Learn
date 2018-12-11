@@ -1,34 +1,72 @@
-#include <stdio.h>
-using namespace std; 
+/*----------------------------------------------------------------
+Copyright (c) 2018 Author: Jagadeesh Vasudevamurthy
+file: length.cpp
+The array of size N will have numbers from (0 to N-1)ONLY
+-----------------------------------------------------------------*/
 
-int _a[] = { 2,0,1,3}; //Orig array
+/*----------------------------------------------------------------
+all includes here
+-----------------------------------------------------------------*/
+#include "../util/util.h"
+#include "length.h"
 
-
-int main(){
-    int len=0;
-    len = length_tough(2);
-     printf ("Length = %d \n",len);
+/*----------------------------------------------------------------
+Time complexity O(n)
+Space Complexity O(1)
+CANNOT CHANGE BELOW
+-----------------------------------------------------------------*/
+int length::length_easy(int x) {
+  int l = 0;
+  int gx = x;
+  while (true) {
+    if (_a[x] == gx) {
+      return l;
+    }
+    x = _a[x];
+    ++l;
+  }
+  return l;
 }
 
- 
-int length_tough(int x ) {
-  static int j = 0;
-  //int len =0 ;
-  //WRITE CODE HERE a(arr,3)
-  // 1 2 0
-  // 0 1 2 
- int temp = 0 ;
-  int val = x;
-  printf("calling length_tough x = %d  a[x]= %d\n",x,_a[x]);
-  j++ ; if (j>10 ) return 0;
-  if ((_a[val] - val ) == 0) {
- 	return 0;
-  }
-  else{
-	  temp      = _a[x];
-	  _a[x]     = _a[_a[x]];
-	  _a[_a[x]] = temp;
- 	return (1+length_tough(x));
-  }
+/*----------------------------------------------------------------
+Time complexity:
+Space Complexity:O(1)
+
+YOU CANNOT USE ANY static variable in this function
+YOU can use as many local variables inside the function
+Cannot use any loop statements like  for, while, do, while, go to
+Can use if. 
+ONLY AFTER THE execution of this routine array s MUST have the same contents as you got it.
+YOU cannot call any subroutine inside this function except length_tough itself (NOT length_easy)
+-----------------------------------------------------------------*/
+int length::length_tough(int x) {
+
+    //WRITE CODE HERE
+	
+	//This program is cool  !!
+
+	int tmp = 0,tmp_ret=0;
+	int ret = 0;
+	//Base case
+	if (x ==  _a[x]) {
+	  return 0;
+	}
+	//Swap the elements at positions _a[x] and x 
+	tmp     = _a[x];
+	_a[x]   = _a[tmp];
+	_a[tmp] = tmp;
+
+	ret = (1 + length_tough(x));
+	//use stack to unswap the array elements ..
+	//Swap the elements at positions x and _a[x] 
+
+	tmp_ret = _a[tmp];
+	_a[tmp] = _a[x];
+	_a[x] = tmp_ret;
+	// ret will have the correct value after stack is completly popped .
+	return ret;
 
 }
+
+//EOF
+
